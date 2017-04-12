@@ -30,7 +30,8 @@ dataloader
 	.load('./data/cpj2017_link_0322.csv', function(d){
 		return {
 			name:d['Name'],
-			where:d['Country_killed']
+			where:d['Country_killed'],
+			link:d['Link']
 		}
 	});
 

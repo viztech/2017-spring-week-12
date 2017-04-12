@@ -1,35 +1,42 @@
 import {dispatch,event} from 'd3';
+import 'awesomplete/awesomplete';
+import 'awesomplete/awesomplete.css';
+
 
 function SearchBar(){
 
 	const _dis = dispatch('search:submit');
 	
 	function exports(selection){
-		let datum = selection.datum() || [];
+	       let datum = selection.datum() || [];
 
 		//Build DOM for this module
-        // <div class="form-group">
-        //   <input type="text" class="form-control" placeholder="Search">
-        // </div>
-        // <button type="submit" class="btn btn-default">Submit</button>
+                // <div class="form-group">
+                //   <input type="text" class="form-control" placeholder="Search">
+                // </div>
+                // <button type="submit" class="btn btn-default">Submit</button>
 
-        let input = selection.append('div')
-        	.attr('class','form-group')
-        	.append('input')
-        	.attr('type','text')
-        	.attr('class','form-control')
-        	.attr('placeholder','Search for journalist');
+                let input = selection.append('div')
+                	.attr('class','form-group')
+                	.append('input')
+                	.attr('type','text')
+                	.attr('class','form-control')
+                	.attr('placeholder','Search for journalist')
 
-        let submitButton = selection.append('button')
-        	.attr('class','btn btn-default')
-        	.attr('type','submit')
-        	.text('Search');
+                let submitButton = selection.append('button')
+                	.attr('class','btn btn-default')
+                	.attr('type','submit')
+                	.text('Search');
 
-        selection.on('submit',function(){
-        	event.preventDefault(); //otherwise page will reload
-        	console.log('SearchBar:'+input.node().value);
-        	_dis.call('search:submit',null,input.node().value);
-        });
+                selection.on('submit',function(){
+                	event.preventDefault(); //otherwise page will reload
+                	console.log('SearchBar:'+input.node().value);
+                	_dis.call('search:submit',null,input.node().value);
+                });
+
+                //Autocomplete using Awesomeplete
+                //Input will try to autocomplete with journalist names
+                new Awesomplete(input.node(), {list:datum.map(function(d){return d.name})});
 	}
 
 	exports.on = function(){
